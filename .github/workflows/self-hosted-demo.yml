@@ -1,0 +1,26 @@
+name: Self-hosted Runner Demo
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  run-on-kubernetes:
+    runs-on: [self-hosted, kubernetes]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Show runner environment
+        run: |
+          echo "Running on self-hosted Kubernetes runner"
+          echo "Hostname: $(hostname)"
+          echo "Available tools:"
+          which kubectl || echo "kubectl not found"
+          which docker || echo "docker not found"
+
+      - name: Run a build step
+        run: |
+          echo "Building application..."
+          echo "This job ran inside your Kubernetes cluster"
+          echo "No secrets left GitHub infrastructure"
